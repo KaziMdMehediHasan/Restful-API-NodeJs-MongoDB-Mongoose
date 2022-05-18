@@ -22,6 +22,7 @@ mongoose
 //     message: "It works!",
 //   });
 // });
+// mongoosePromise = global.Promise;
 
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -41,7 +42,7 @@ app.use((req, res, next) => {
 });
 // routes which handle requests
 app.use("/products", productRoutes);
-app.use("/order", orderRoutes);
+app.use("/orders", orderRoutes);
 
 // error handling
 app.use((req, res, next) => {
