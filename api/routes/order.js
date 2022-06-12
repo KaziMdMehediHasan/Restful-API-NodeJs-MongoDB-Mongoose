@@ -8,6 +8,7 @@ const Product = require("../models/product");
 router.get("/", (req, res, next) => {
   Order.find()
     .select("_id product quantity")
+    .populate('product', 'name')
     .exec()
     .then((docs) => {
       res.status(200).json({
@@ -60,18 +61,50 @@ router.post("/", (req, res, next) => {
 
 // get by id
 router.get("/:orderId", (req, res, next) => {
-  res.status(200).json({
-    message: "Orders were fetched",
-    orderId: req.params.orderId,
-  });
+  Order.findById(req.params.orderId)
+    .populate('product') //this function must be written before exec
+    .exec()
+    .then(order => {
+      if (!order) {
+        return res.status(404).json({
+          message: "Order Not Found"
+        });
+      }
+      res.status(200).json({
+        order: order,
+        request: {
+          type: 'GET',
+          url: 'http://localhost:5000/orders'
+        }
+      })
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+    })
+  // res.status(200).json({
+  //   message: "Orders were fetched",
+  //   orderId: req.params.orderId,
+  // });
 });
 
 // delete by ID
 router.delete("/:orderId", (req, res, next) => {
-  res.status(200).json({
-    message: "Orders were Deleted",
-    orderId: req.params.orderId,
-  });
+  Order.remove({ _id: req.params.orderId }).exec().then(result => {
+    res.status(200).json({
+      message: 'Order Deleted',
+      request: {
+        type: 'POST',
+        url: 'http://localhost:5000/orders',
+        body: { productId: 'ID', quantity: 'Number' }
+      }
+    })
+  }).catch((err) => {
+    res.status(500).json({ error: err });
+  })
+  // res.status(200).json({
+  //   message: "Orders were Deleted",
+  //   orderId: req.params.orderId,
+  // });
 });
 
 module.exports = router;
