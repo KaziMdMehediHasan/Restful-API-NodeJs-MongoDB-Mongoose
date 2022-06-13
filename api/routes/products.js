@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require("mongoose");
 // import the product model from models folder
 const Product = require("../models/product");
+const checkAuth = require("../middleware/check-auth");
 
 /*---------------------for uploading files code starts from here------------------------*/
 const multer = require('multer');
@@ -74,7 +75,7 @@ router.get("/", (req, res, next) => {
     });
 });
 
-router.post("/", upload.single('productImage'), (req, res, next) => {
+router.post("/", checkAuth, upload.single('productImage'), (req, res, next) => {
   // const product = {
   //   name: req.body.name,
   //   price: req.body.price,
@@ -140,7 +141,7 @@ router.get("/:productId", (req, res, next) => {
 });
 
 // update route
-router.patch("/:productId", (req, res, next) => {
+router.patch("/:productId", checkAuth, (req, res, next) => {
   const id = req.params.productId;
   console.log(req.body);
   //  by default body is coming as a json object
@@ -175,7 +176,7 @@ router.patch("/:productId", (req, res, next) => {
 });
 
 // delete route using mongoose
-router.delete("/:productId", (req, res, next) => {
+router.delete("/:productId", checkAuth, (req, res, next) => {
   const id = req.params.productId;
   Product.deleteOne({ _id: id })
     .exec() //means true promise

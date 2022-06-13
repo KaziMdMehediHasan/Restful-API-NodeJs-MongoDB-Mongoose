@@ -6,10 +6,11 @@ const productRoutes = require("./api/routes/products");
 const orderRoutes = require("./api/routes/order");
 const mongoose = require("mongoose");
 const userRoutes = require("./api/routes/user");
+require("dotenv").config();
 // connect the database with mongoose
 mongoose
   .connect(
-    `mongodb+srv://resftful-api:restful-api@restful-api.fdzsm.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
+    `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@restful-api.fdzsm.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
   )
   .then(() => {
     console.log("Database Connected!");

@@ -1,5 +1,6 @@
 {
   "env": {
-    "DB_PASSWORD": "restful-api"
+    "DB_PASSWORD": "restful-api",
+    "JWT_KEY": "secret"
   }
 }
