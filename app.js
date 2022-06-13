@@ -25,6 +25,7 @@ mongoose
 // mongoosePromise = global.Promise;
 
 app.use(morgan("dev"));
+app.use('/uploads', express.static('uploads')); //making the upload folder publicly available
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 // to handle cors error
