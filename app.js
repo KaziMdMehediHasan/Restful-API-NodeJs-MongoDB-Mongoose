@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const productRoutes = require("./api/routes/products");
 const orderRoutes = require("./api/routes/order");
 const mongoose = require("mongoose");
-
+const userRoutes = require("./api/routes/user");
 // connect the database with mongoose
 mongoose
   .connect(
@@ -44,6 +44,7 @@ app.use((req, res, next) => {
 // routes which handle requests
 app.use("/products", productRoutes);
 app.use("/orders", orderRoutes);
+app.use('/user', userRoutes);
 
 // error handling
 app.use((req, res, next) => {
