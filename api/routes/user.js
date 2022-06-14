@@ -59,10 +59,12 @@ router.post('/login', (req, res, next) => {
                     })
                 }
                 if (result) {
-                    const token = jwt.sign({
-                        email: user[0].email,
-                        userId: user[0]._id,
-                    }, process.env.JWT_KEY,
+                    const token = jwt.sign(
+                        {
+                            email: user[0].email,
+                            userId: user[0]._id,
+                        },
+                        process.env.JWT_KEY,
                         {
                             expiresIn: "1h"
                         },
@@ -84,7 +86,7 @@ router.post('/login', (req, res, next) => {
                 error: err
             })
         })
-})
+});
 router.delete('/:userId', (req, res, next) => {
     User.remove({ _id: req.params.userId })
         .exec()
